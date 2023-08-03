@@ -45,3 +45,5 @@ jobs:
           mkdir -p /tmp/gha-tools
           curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
           echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
+      - name: Test gha-tools
+        run: rapids-logger "Test message"
