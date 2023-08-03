@@ -24,7 +24,6 @@ permissions:
 
 env:
   GHA_TOOLS_DIR: /home/rapids/.local/bin
-  PATH: $PATH:/home/rapids/.local/bin
 
 jobs:
   test-ubuntu:
@@ -46,4 +45,6 @@ jobs:
           mkdir -p "${{env.GHA_TOOLS_DIR}}"
           curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C "${{env.GHA_TOOLS_DIR}}"
       - name: Test gha-tools
-        run: rapids-logger "Test message"
+        run: |
+          PATH="$PATH:${{env.GHA_TOOLS_DIR}}"
+          rapids-logger "Test message"
