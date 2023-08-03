@@ -70,3 +70,26 @@ jobs:
           echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
       - name: Test gha-tools
         run: rapids-logger "Test message"
+  test-ubuntu:
+    runs-on: "ubuntu-latest"
+    container:
+      image: rapidsai/test-ci-permissions:latest
+      # env:
+      #   NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
+    steps:
+      - name: Install gha-tools
+        run: |
+          set -x
+          whoami
+          id
+          pwd
+          ls -la .
+          ls -la "${GITHUB_PATH}"
+
+          mamba install -y curl
+
+          mkdir -p /tmp/gha-tools
+          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
+          echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
+      - name: Test gha-tools
+        run: rapids-logger "Test message"
