@@ -33,9 +33,15 @@ jobs:
     steps:
       - name: Install gha-tools
         run: |
+          set -x
+          whoami
+          id
           pwd
           ls -la .
           ls -la "${GITHUB_PATH}"
+
+          mamba install -y curl
+
           mkdir -p /tmp/gha-tools
           curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
           echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
