@@ -22,15 +22,15 @@ permissions:
   security-events: none
   statuses: none
 
+env:
+  GHA_TOOLS_DIR: /home/rapids/.local/bin
+  PATH: $PATH:/home/rapids/.local/bin
 
 jobs:
   test-ubuntu:
     runs-on: "ubuntu-latest"
     container:
       image: rapidsai/test-ci-permissions:latest
-      env:
-        GHA_TOOLS_DIR: /home/rapids/.local/bin
-        PATH: $PATH:${{env.GHA_TOOLS_DIR}}
     steps:
       - name: Install gha-tools
         run: |
