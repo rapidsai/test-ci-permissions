@@ -36,6 +36,7 @@ jobs:
           set -x
           whoami
           id
+          id 1001
           pwd
           ls -la .
           ls -la "${GITHUB_PATH}"
