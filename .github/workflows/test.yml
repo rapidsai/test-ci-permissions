@@ -31,11 +31,6 @@ jobs:
       env:
         NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
     steps:
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.GPUCIBOT_DOCKERHUB_USER }}
-          password: ${{ secrets.GPUCIBOT_DOCKERHUB_TOKEN }}
       - name: Install gha-tools
         run: |
           pwd
