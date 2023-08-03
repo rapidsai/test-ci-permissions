@@ -24,7 +24,7 @@ permissions:
 
 
 jobs:
-  test:
+  test-gpu:
     runs-on: "linux-amd64-gpu-v100-latest-1"
     container:
       image: rapidsai/test-ci-permissions:latest
@@ -36,7 +36,29 @@ jobs:
           set -x
           whoami
           id
-          id 1001
+          pwd
+          ls -la .
+          ls -la "${GITHUB_PATH}"
+
+          mamba install -y curl
+
+          mkdir -p /tmp/gha-tools
+          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
+          echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
+      - name: Test gha-tools
+        run: rapids-logger "Test message"
+  test-cpu:
+    runs-on: "linux-amd64-cpu4"
+    container:
+      image: rapidsai/test-ci-permissions:latest
+      # env:
+      #   NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
+    steps:
+      - name: Install gha-tools
+        run: |
+          set -x
+          whoami
+          id
           pwd
           ls -la .
           ls -la "${GITHUB_PATH}"
