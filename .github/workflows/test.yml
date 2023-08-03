@@ -24,58 +24,13 @@ permissions:
 
 
 jobs:
-  test-gpu:
-    runs-on: "linux-amd64-gpu-v100-latest-1"
-    container:
-      image: rapidsai/test-ci-permissions:latest
-      env:
-        NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
-    steps:
-      - name: Install gha-tools
-        run: |
-          set -x
-          whoami
-          id
-          pwd
-          ls -la .
-          ls -la "${GITHUB_PATH}"
-
-          mamba install -y curl
-
-          mkdir -p /tmp/gha-tools
-          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
-          echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
-      - name: Test gha-tools
-        run: rapids-logger "Test message"
-  test-cpu:
-    runs-on: "linux-amd64-cpu4"
-    container:
-      image: rapidsai/test-ci-permissions:latest
-      # env:
-      #   NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
-    steps:
-      - name: Install gha-tools
-        run: |
-          set -x
-          whoami
-          id
-          pwd
-          ls -la .
-          ls -la "${GITHUB_PATH}"
-
-          mamba install -y curl
-
-          mkdir -p /tmp/gha-tools
-          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
-          echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
-      - name: Test gha-tools
-        run: rapids-logger "Test message"
   test-ubuntu:
     runs-on: "ubuntu-latest"
     container:
       image: rapidsai/test-ci-permissions:latest
-      # env:
-      #   NVIDIA_VISIBLE_DEVICES: ${{ env.NVIDIA_VISIBLE_DEVICES }}
+      env:
+        GHA_TOOLS_DIR: /home/rapids/.local/bin
+        PATH: $PATH:${{env.GHA_TOOLS_DIR}}
     steps:
       - name: Install gha-tools
         run: |
@@ -88,8 +43,7 @@ jobs:
 
           mamba install -y curl
 
-          mkdir -p /tmp/gha-tools
-          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C /tmp/gha-tools
-          echo "/tmp/gha-tools" >> "${GITHUB_PATH}"
+          mkdir -p "${{env.GHA_TOOLS_DIR}}"
+          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C "${{env.GHA_TOOLS_DIR}}"
       - name: Test gha-tools
         run: rapids-logger "Test message"
