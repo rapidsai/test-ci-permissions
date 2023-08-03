@@ -42,9 +42,9 @@ jobs:
 
           mamba install -y curl
 
-          mkdir -p "${{env.GHA_TOOLS_DIR}}"
-          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C "${{env.GHA_TOOLS_DIR}}"
+          mkdir -p "$GHA_TOOLS_DIR"
+          curl -s -L 'https://github.com/rapidsai/gha-tools/releases/latest/download/tools.tar.gz' | tar -xz -C "$GHA_TOOLS_DIR"
       - name: Test gha-tools
         run: |
-          PATH="$PATH:${{env.GHA_TOOLS_DIR}}"
+          PATH="$PATH:$GHA_TOOLS_DIR"
           rapids-logger "Test message"
